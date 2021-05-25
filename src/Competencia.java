@@ -8,9 +8,6 @@ public class Competencia {
 	private TipoCategoria categoriasM;
 	
 	public Competencia(List<String> datos) {
-		
-		int edad;
-		String sexo;
 
 		int nroRegistro = 0;
 		String[] array = datos.get(nroRegistro++).split(" ");
@@ -26,21 +23,33 @@ public class Competencia {
 		this.categoriasM = new TipoCategoria(datos,nroRegistro,cantCatM);
 		nroRegistro += cantCatM;
 		
+		
 		this.corredores = new LinkedHashMap<Integer,Corredor>();
 		
-		int iniRegCorredores = nroRegistro;
-		nroRegistro += cantCorredores;
 		
+		this.determinarOrdenLlegada(nroRegistro+cantCorredores, cantFinal, datos);
+		this.insertarCorredoresEnOrden(nroRegistro, cantCorredores, datos);
+		
+		//System.out.println(this.corredores);
+	}
+	
+	private void determinarOrdenLlegada(int nroRegistro,int cant,List<String> datos)
+	{
 		int ordenLlegada;
-		for (int i = 0; i < cantFinal; i++) {
+		for (int i = 0; i < cant; i++) {
 			ordenLlegada = Integer.valueOf(datos.get(nroRegistro));
 			this.corredores.put(ordenLlegada, null);
 			nroRegistro++;
 		}
+	}
+	
+	private void insertarCorredoresEnOrden(int nroRegistro,int cant,List<String> datos)
+	{
+		String[] array;
+		String sexo;
+		int edad;
 		
-		nroRegistro = iniRegCorredores;
-		
-		for (int i = 0; i < cantCorredores; i++) {
+		for (int i = 0; i < cant; i++) {
 			array = datos.get(nroRegistro).split(" ");
 			edad = Integer.valueOf(array[0]);
 			sexo = array[1];
@@ -48,17 +57,15 @@ public class Competencia {
 				this.corredores.put(i+1,new Corredor(i+1,edad,sexo));
 			nroRegistro++;
 		}
-		
-		//System.out.println(this.corredores);
 	}
 	
 	public String obtenerPodios()
 	{
 		for (Corredor corredor : this.corredores.values()) {
 			if(corredor.getSexo().equals("M") == true)
-				this.categoriasM.agregarCorredor(corredor);
+				this.categoriasM.insertarEnCategoria(corredor);
 			else
-				this.categoriasF.agregarCorredor(corredor);
+				this.categoriasF.insertarEnCategoria(corredor);
 		}
 		return this.categoriasF + "" + this.categoriasM;
 	}

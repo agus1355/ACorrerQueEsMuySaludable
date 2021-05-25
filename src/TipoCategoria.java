@@ -22,7 +22,7 @@ public class TipoCategoria {
 		}
 	}
 	
-	public void agregarCorredor(Corredor c)
+	public void insertarEnCategoria(Corredor c)
 	{
 		for (Categoria categoria : categorias) {
 			if(categoria.agregarCorredor(c) == true)
