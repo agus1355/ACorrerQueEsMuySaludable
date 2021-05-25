@@ -24,8 +24,6 @@ public class TipoCategoria {
 	
 	public void agregarCorredor(Corredor c)
 	{
-		if(c.getOrdenLlegada() == 0)
-			return;
 		for (Categoria categoria : categorias) {
 			if(categoria.agregarCorredor(c) == true)
 				return;
